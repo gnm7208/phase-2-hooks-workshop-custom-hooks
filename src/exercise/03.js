@@ -1,31 +1,23 @@
 import { useState, useEffect } from "react";
 
 export function useMouseCoordinates() {
-  // ✅ get the setCoordinates function back too!
-  // 👀 const [coordinates, setCoordinates] = useState(...)
-  const [coordinates] = useState({
+  const [coordinates, setCoordinates] = useState({
     clientX: 0,
     clientY: 0,
   });
 
   useEffect(() => {
-    /* 
-     ✅ create an event handler function to run when the mousemove event fires
-     set state with the clientX and clientY coordinates from the event
-     👀 function handler(event) {}
-    */
+    function handler(event) {
+      setCoordinates({
+        clientX: event.clientX,
+        clientY: event.clientY,
+      });
+    }
 
-    /* 
-     ✅ attach an event listener to the window for the mousemove event
-     📃 https://developer.mozilla.org/en-US/docs/Web/API/Element/mousemove_event
-     👀 window.addEventListener("mousemove", handler)
-    */
+    window.addEventListener("mousemove", handler);
 
     return function cleanup() {
-      /* 
-       ✅ make sure to clean up your event listeners when your hook is no longer in use!
-       👀 window.removeEventListener("mousemove", handler)
-      */
+      window.removeEventListener("mousemove", handler);
     };
   }, []);
 
